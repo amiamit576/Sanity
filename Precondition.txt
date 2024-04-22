@@ -1,0 +1,8 @@
+1.[Preconditions]
+a.The Device Should be Stable and Sim Card Should be inserted
+b.Wifi and Mobile Data Should be Disabeled
+c.Save the Number
+d.Pass the NUmber FirstTime
+e.Dut Two need to reccive call for Sucesssful Call
+f.Screen Lock time increase.
+g.Observe Result

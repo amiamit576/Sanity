@@ -13,7 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 capabilities = dict(
     platformName='Android',
     automationName='uiautomator2',
-    deviceName='de103184',
+    deviceName='fc20c0534',
     language='en',
     locale='US',
     ignoreHiddenApiPolicyError='true',
@@ -61,12 +61,14 @@ except:
     count += 1
 print("hello")
 # wait for 5sec
+
+
 for i in range(5):
     time.sleep(5)
     driver.find_element(AppiumBy.XPATH,'//android.widget.TextView[@resource-id="com.google.android.dialer:id/primary_text" and @text="Ayn"]').click()
     time.sleep(1)
     driver.find_element(AppiumBy.XPATH,'//android.widget.ImageView[@content-desc="call Ayn"]').click()
-    wait_to_recciveTheCall = WebDriverWait(driver, 20,poll_frequency=1)
+    wait_to_recciveTheCall = WebDriverWait(driver, 35,poll_frequency=1)
     try:
         wait_to_recciveTheCall.until(
             EC.visibility_of_element_located((AppiumBy.XPATH,
