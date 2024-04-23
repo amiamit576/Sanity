@@ -1,6 +1,9 @@
 import time
+
+import appium.options.android
 import pytest
 from appium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
 from appium.options.android import UiAutomator2Options
@@ -8,7 +11,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 capabilities = {
     'platformName': 'Android',
     'automationName': 'uiautomator2',
-    'deviceName': 'fc20c0534',
+    'deviceName': 'eb90285c',
     'language': 'en',
     'locale': 'US',
     'ignoreHiddenApiPolicyError': True,
@@ -18,32 +21,58 @@ capabilities = {
 Host_Url = 'http://localhost:4723'
 driver = webdriver.Remote(Host_Url, options=UiAutomator2Options().load_capabilities(capabilities))
 
-package_name = 'com.google.android.apps.messaging'  # Replace with the package name of your app
-activity_name = 'com.google.android.apps.messaging.ui.ConversationListActivity'  # Replace with the activity name of your app
+#write an Exception
+try:
+    message=driver.find_element(AppiumBy.XPATH,'//android.widget.TextView[@content-desc="Messages"]')
+    if message.is_displayed():
+        message.click()
 
-driver.swipe(523,2308,523,686)
+except:
+    driver.swipe(523, 2308, 523, 686)
+    time.sleep(1)
+# write  code to Scroll
+    try:
+        driver.find_element(AppiumBy.XPATH,'//android.widget.AutoCompleteTextView[@resource-id="com.android.launcher:id/search_src_text"]').send_keys("Messages")
+    except:
+        driver.swipe(523,2308,523,686)
+
+    driver.find_element(AppiumBy.XPATH,'(//android.widget.TextView[@content-desc="Messages"])[2]').click()
 time.sleep(1)
-driver.swipe(523,2308,523,686)
-driver.find_element(AppiumBy.XPATH,'(//android.widget.TextView[@content-desc="Messages"])[2]').click()
-driver.find_element(AppiumBy.XPATH,'//android.widget.Button[@content-desc="Start chat"]').click()
+# write  exception
+try:
+    driver.find_element(AppiumBy.XPATH,'//android.widget.Button[@content-desc="Start chat"]').click()
+except:
+    driver.find_element(AppiumBy.XPATH, '//android.widget.ImageButton[@content-desc="Navigate up"]').click()
+    driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Start chat"]').click()
+
 number=input("Enter the num  you want to send  Sms: ")
-time.sleep(1)
+time.sleep(2)
 driver.find_element(AppiumBy.XPATH,'//android.widget.EditText[@resource-id="ContactSearchField"]').send_keys(number)
-driver.find_element(AppiumBy.XPATH,'//android.widget.TextView[@text="Send to ~Amit Kumar"]').click()
+
+driver.find_element(AppiumBy.XPATH,'//android.view.View[@resource-id="GlideMonogram"]').click()
 paragraph=("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique mi id risus aliquam, nec hendrerit eros molestie. Integer ut nisi eget nunc vulputate condimentum. Nulla ac leo ac ipsum condimentum rhoncus. Vivamus nec est a ligula tincidunt rutrum sit amet nec ligula. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce non dolor vel nunc lacinia accumsan. Sed ultricies ipsum id ipsum ultricies, nec dapibus tortor tempus. Nullam euismod metus sit amet velit lacinia, id eleifend velit viverra. Quisque in diam vitae nisi varius sollicitudin. "
            "Cras eget metus nec sapien rutrum hendrerit. Mauris vulputate luctus sapien, ut sollicitudin orci volutpat non. Ut non feugiat justo, a elementum nibh. Curabitur vel justo ut nulla vehicula interdum.")
 driver.find_element(AppiumBy.XPATH,'//android.widget.EditText[@resource-id="com.google.android.apps.messaging:id/compose_message_text"]').send_keys(paragraph)
 time.sleep(1)
-driver.find_element(AppiumBy.XPATH,'//android.widget.ImageView[@content-desc="Send SMS"]').click()
+driver.find_element(AppiumBy.XPATH,'//android.widget.ImageView[@resource-id="com.google.android.apps.messaging:id/send_message_button_icon"]').click()
 no_count=int(input("Number of time you want input a number : "))
 for i in range(no_count):
+    # write  a exception  here
     driver.find_element(AppiumBy.XPATH,
                         '//android.widget.EditText[@resource-id="com.google.android.apps.messaging:id/compose_message_text"]').send_keys(
         paragraph)
     time.sleep(1)
-    driver.find_element(AppiumBy.XPATH, '//android.widget.ImageView[@content-desc="Send SMS"]').click()
+    driver.find_element(AppiumBy.XPATH, '//android.widget.ImageView[@resource-id="com.google.android.apps.messaging:id/send_message_button_icon"]').click()
+# go back to Home Screen
 driver.find_element(AppiumBy.XPATH,'//android.widget.ImageButton[@content-desc="Navigate up"]').click()
 driver.execute_script('mobile: pressKey', {"keycode": 4})
+#driver.execute_script('mobile: pressKey', {"keycode": 4})
+driver.execute_script('mobile: pressKey', {"keycode": 187})
+driver.find_element(AppiumBy.XPATH,'//android.widget.Button[@content-desc="Close all"]').click()
+
+
+
+
 
 
 
